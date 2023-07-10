@@ -4,27 +4,25 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table
-
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-@Builder
-@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class WorkSheet {
+public class Account {
 
     @Id
-    String idWorkSheet;
-    Date date;
-    int sheet;
+    String username;
+    String password;
 
     @OneToOne()
     @JoinColumn(name = "id_emp")
     Employee employee;
+
+    @OneToOne()
+    @JoinColumn(name = "id_role")
+    Role role;
 
 }

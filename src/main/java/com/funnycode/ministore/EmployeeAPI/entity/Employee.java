@@ -10,13 +10,9 @@ import java.util.Date;
 
 @Entity
 @Table
-
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-@Builder
-@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Employee {
 

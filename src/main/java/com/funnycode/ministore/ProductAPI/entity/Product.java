@@ -4,21 +4,22 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table
-
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-@Builder
-@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Role {
+public class Product {
 
     @Id
-    String idRole;
-    String nameRole;
+    String idProduct;
+    String nameProduct;
+    int quantityProduct;
+    float priceProduct;
+    String typeProduct;
+    String pictureProduct;
 
 }

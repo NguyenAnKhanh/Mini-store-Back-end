@@ -8,22 +8,19 @@ import java.util.Date;
 
 @Entity
 @Table
-
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-@Builder
-@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Product {
+public class WorkSheet {
 
     @Id
-    String idProduct;
-    String nameProduct;
-    int quantityProduct;
-    float priceProduct;
-    String typeProduct;
-    String pictureProduct;
+    String idWorkSheet;
+    Date date;
+    int sheet;
+
+    @OneToOne()
+    @JoinColumn(name = "id_emp")
+    Employee employee;
 
 }
