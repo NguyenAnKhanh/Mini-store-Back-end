@@ -1,6 +1,6 @@
-package com.funnycode.ministore.Repository;
+package com.funnycode.ministore.RoleAPI.repository;
 
-import com.funnycode.ministore.Model.Role;
+import com.funnycode.ministore.RoleAPI.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.funnycode.ministore.Model;
+package com.funnycode.ministore.EmployeeAPI.entity;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -11,6 +11,7 @@ import java.util.Date;
 @Entity
 @Table
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
