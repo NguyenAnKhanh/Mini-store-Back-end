@@ -16,6 +16,9 @@ import javax.persistence.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Account {
 
+
+    //            @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    int userID;
     @Id
     String username;
     String password;
