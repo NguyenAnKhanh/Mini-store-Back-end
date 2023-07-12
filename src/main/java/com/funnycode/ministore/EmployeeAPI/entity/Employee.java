@@ -3,9 +3,7 @@ package com.funnycode.ministore.EmployeeAPI.entity;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -18,7 +16,9 @@ import java.util.Date;
 public class Employee {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     String idEmp;
+
     String fullnameEmp;
     String CCCD;
     Date dob;

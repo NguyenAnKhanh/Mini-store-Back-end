@@ -17,6 +17,7 @@ import java.util.Date;
 public class WorkSheet {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     String idWorkSheet;
     Date date;
     int sheet;

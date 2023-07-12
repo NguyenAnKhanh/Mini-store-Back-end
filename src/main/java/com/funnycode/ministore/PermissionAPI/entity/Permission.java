@@ -16,6 +16,7 @@ import javax.persistence.*;
 public class Permission {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     String idPermission;
     String describePermission;
 
