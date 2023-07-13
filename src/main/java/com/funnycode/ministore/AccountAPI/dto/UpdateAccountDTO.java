@@ -8,7 +8,7 @@ import lombok.experimental.FieldDefaults;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
-public class CreateAccountDTO {
+public class UpdateAccountDTO {
     String username;
     String password;
 }
