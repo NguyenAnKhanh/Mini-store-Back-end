@@ -1,21 +1,14 @@
-package com.funnycode.ministore.EmployeeAPI.entity;
+package com.funnycode.ministore.EmployeeAPI.dto;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.*;
 import java.util.Date;
 
-@Entity
-@Table
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Employee {
-
-    @Id
+public class CreateEmployeeDTO {
     String idEmp;
 
     String fullnameEmp;
@@ -24,5 +17,4 @@ public class Employee {
     String phoneEmp;
     Date dateJoin;
     String pictureEmp;
-
 }
