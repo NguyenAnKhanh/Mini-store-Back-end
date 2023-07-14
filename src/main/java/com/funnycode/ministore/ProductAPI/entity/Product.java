@@ -16,9 +16,9 @@ import java.util.Date;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     String idProduct;
     String nameProduct;
+    @Column(name = "quantity")
     int quantityProduct;
     float priceProduct;
     String typeProduct;
