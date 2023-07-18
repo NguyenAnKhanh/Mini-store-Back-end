@@ -7,11 +7,14 @@ import com.funnycode.ministore.AccountAPI.entity.Account;
 import com.funnycode.ministore.AccountAPI.repository.IAccountRepository;
 import com.funnycode.ministore.AccountAPI.service.AccountService;
 import com.funnycode.ministore.AccountAPI.util.mapper.AccountMapper;
+import com.funnycode.ministore.Exception.NotFoundException;
+import com.funnycode.ministore.Model.CustomError;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -48,9 +51,13 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public ResponseAccountDTO getAccountByUsername(String username) {
-        Account account = iAccountRepository.findById(username).get();
+        Optional<Account> accountOptional = iAccountRepository.findById(username);
+        if (accountOptional.isEmpty()){
+            throw new NotFoundException(CustomError.builder().message("Account not found!").code("500").build());
+        } else {
+            return AccountMapper.toResponseAccountDTO(accountOptional.get());
 
-        return AccountMapper.toResponseAccountDTO(account);
+        }
     }
 
     @Override
