@@ -17,7 +17,6 @@ import java.util.Date;
 public class Salary {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     String idSalary;
     float totalSalary;
     Date dateIMonth;
