@@ -52,8 +52,8 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public ResponseAccountDTO getAccountByUsername(String username) {
         Optional<Account> accountOptional = iAccountRepository.findById(username);
-        if (accountOptional.isEmpty()){
-            throw new NotFoundException(CustomError.builder().message("Account not found!").code("500").build());
+        if (accountOptional.isEmpty()) {
+            throw new NotFoundException(CustomError.builder().message("Account not found!").code("404").build());
         } else {
             return AccountMapper.toResponseAccountDTO(accountOptional.get());
 
@@ -74,7 +74,13 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public ResponseAccountDTO deleteAccount(String username) {
         // lay thang entity tu thang` dto
-        Account account = iAccountRepository.findById(username).get();
+        Optional<Account> accountOptional = iAccountRepository.findById(username);
+        Account account = accountOptional
+                .orElseThrow(() -> new NotFoundException(
+                        CustomError
+                                .builder()
+                                .message("Account not found!")
+                                .code("404").build()));
         // delete
         iAccountRepository.delete(account);
         // tra ve thang` dc xoa

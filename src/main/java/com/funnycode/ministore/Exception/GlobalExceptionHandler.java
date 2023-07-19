@@ -15,9 +15,19 @@ public class GlobalExceptionHandler {
 //        return ResponseEntity.internalServerError().body(ex.getCustomError());
 //    }
 
+    // not found exception
     @ExceptionHandler(NotFoundException.class)
     public CustomError notFoundException(NotFoundException ex){
         return ex.getCustomError();
+    }
+
+    // exception chung, chua dc xu li
+    @ExceptionHandler(Exception.class)
+    public CustomError internalServer(Exception ex){
+         return CustomError.builder()
+                 .code("500")
+                 .message("Internal server error")
+                 .build();
     }
 }
 
