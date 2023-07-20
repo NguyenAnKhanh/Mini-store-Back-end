@@ -19,7 +19,8 @@ public class AccountMapper {
     // dto k chua' password
     public static ResponseAccountDTO toResponseAccountDTO(Account account) {
         return ResponseAccountDTO.builder()
-                .username(account.getUsername()).build();
+                .username(account.getUsername())
+                .id(account.getId()).build();
     }
 
     public static Account toAccount(UpdateAccountDTO updateAccountDTO) {

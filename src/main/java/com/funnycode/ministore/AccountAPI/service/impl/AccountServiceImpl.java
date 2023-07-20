@@ -1,15 +1,16 @@
 package com.funnycode.ministore.AccountAPI.service.impl;
 
-import com.funnycode.ministore.AccountAPI.dto.CreateAccountDTO;
-import com.funnycode.ministore.AccountAPI.dto.ResponseAccountDTO;
-import com.funnycode.ministore.AccountAPI.dto.UpdateAccountDTO;
+import com.funnycode.ministore.AccountAPI.dto.*;
 import com.funnycode.ministore.AccountAPI.entity.Account;
 import com.funnycode.ministore.AccountAPI.repository.IAccountRepository;
 import com.funnycode.ministore.AccountAPI.service.AccountService;
 import com.funnycode.ministore.AccountAPI.util.mapper.AccountMapper;
 import com.funnycode.ministore.Exception.NotFoundException;
 import com.funnycode.ministore.Model.CustomError;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,14 +19,18 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AccountServiceImpl implements AccountService {
-    private final IAccountRepository iAccountRepository;
+    IAccountRepository iAccountRepository;
+    PasswordEncoder passwordEncoder;
 
     @Override
     public ResponseAccountDTO createAccount(CreateAccountDTO createAccountDTO) {
         // chuyen dto qua entity vi thang` repo chi lam viec voi entity
         // ham` toAccount nhan vao cai DTO, tra ve 1 thang entity
         Account account = AccountMapper.toAccount(createAccountDTO);
+        // ma hoa mat khau truoc khi luu vao db
+        account.setPassword(passwordEncoder.encode(account.getPassword()));
         account = iAccountRepository.save(account);
 
         //map tu entity -> DTO de gui cho controller
@@ -85,6 +90,11 @@ public class AccountServiceImpl implements AccountService {
         iAccountRepository.delete(account);
         // tra ve thang` dc xoa
         return AccountMapper.toResponseAccountDTO(account);
+    }
+
+    @Override
+    public ResponseLoginDTO login(RequestLoginDTO requestLoginDTO) {
+        return null;
     }
 
 
