@@ -1,8 +1,6 @@
 package com.funnycode.ministore.AccountAPI.service;
 
-import com.funnycode.ministore.AccountAPI.dto.CreateAccountDTO;
-import com.funnycode.ministore.AccountAPI.dto.ResponseAccountDTO;
-import com.funnycode.ministore.AccountAPI.dto.UpdateAccountDTO;
+import com.funnycode.ministore.AccountAPI.dto.*;
 import com.funnycode.ministore.AccountAPI.entity.Account;
 
 import java.util.List;
@@ -19,4 +17,6 @@ public interface AccountService {
     ResponseAccountDTO updateAccount(UpdateAccountDTO updateAccountDTO, String username);
 
     ResponseAccountDTO deleteAccount(String username);
+
+    ResponseLoginDTO login(RequestLoginDTO requestLoginDTO);
 }
