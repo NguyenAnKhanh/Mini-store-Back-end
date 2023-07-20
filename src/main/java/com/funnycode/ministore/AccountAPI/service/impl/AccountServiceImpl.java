@@ -7,6 +7,7 @@ import com.funnycode.ministore.AccountAPI.service.AccountService;
 import com.funnycode.ministore.AccountAPI.util.mapper.AccountMapper;
 import com.funnycode.ministore.Exception.NotFoundException;
 import com.funnycode.ministore.Model.CustomError;
+import com.funnycode.ministore.Util.JwtTokenUtil;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -23,7 +24,7 @@ import java.util.Optional;
 public class AccountServiceImpl implements AccountService {
     IAccountRepository iAccountRepository;
     PasswordEncoder passwordEncoder;
-
+    JwtTokenUtil jwtTokenUtil;
     @Override
     public ResponseAccountDTO createAccount(CreateAccountDTO createAccountDTO) {
         // chuyen dto qua entity vi thang` repo chi lam viec voi entity
@@ -56,7 +57,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public ResponseAccountDTO getAccountByUsername(String username) {
-        Optional<Account> accountOptional = iAccountRepository.findById(username);
+        Optional<Account> accountOptional = iAccountRepository.findByUsername(username);
         if (accountOptional.isEmpty()) {
             throw new NotFoundException(CustomError.builder().message("Account not found!").code("404").build());
         } else {
@@ -79,7 +80,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public ResponseAccountDTO deleteAccount(String username) {
         // lay thang entity tu thang` dto
-        Optional<Account> accountOptional = iAccountRepository.findById(username);
+        Optional<Account> accountOptional = iAccountRepository.findByUsername(username);
         Account account = accountOptional
                 .orElseThrow(() -> new NotFoundException(
                         CustomError
@@ -94,7 +95,25 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public ResponseLoginDTO login(RequestLoginDTO requestLoginDTO) {
-        return null;
+        // lay account theo username
+        Account account = iAccountRepository.findByUsername(requestLoginDTO.getUsername())
+                .orElseThrow(()->new RuntimeException("Account not found"));
+
+        // kiem tra password
+        boolean isAuthentication = passwordEncoder
+                .matches(requestLoginDTO.getPassword(), account.getPassword());
+        if (!isAuthentication){
+            throw new RuntimeException("Username or password is incorrect");
+        }
+        // ok thi gen ra token
+        final int ONE_DAY = 24 * 60 * 60;
+        String accessToken = jwtTokenUtil.generateToken(AccountMapper.toTokenPayload(account), ONE_DAY);
+
+        // tra ve ng dung access
+        return ResponseLoginDTO.builder()
+                .account(AccountMapper.toResponseAccountDTO(account))
+                .accessToken(accessToken)
+                .build();
     }
 
 

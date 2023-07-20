@@ -4,8 +4,10 @@ import com.funnycode.ministore.AccountAPI.dto.CreateAccountDTO;
 import com.funnycode.ministore.AccountAPI.dto.ResponseAccountDTO;
 import com.funnycode.ministore.AccountAPI.dto.UpdateAccountDTO;
 import com.funnycode.ministore.AccountAPI.entity.Account;
+import com.funnycode.ministore.Model.TokenPayload;
 
 public class AccountMapper {
+
     // nhan vao dto -> tra ve entity
     // su dung createDTO
     public static Account toAccount(CreateAccountDTO createAccountDTO) {
@@ -27,6 +29,13 @@ public class AccountMapper {
         return Account.builder()
                 .username(updateAccountDTO.getUsername())
                 .password(updateAccountDTO.getPassword())
+                .build();
+    }
+
+    public static TokenPayload toTokenPayload(Account account) {
+        return TokenPayload.builder()
+                .accountID(account.getId())
+                .username(account.getUsername())
                 .build();
     }
 }
