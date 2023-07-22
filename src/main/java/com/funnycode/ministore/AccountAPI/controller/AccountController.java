@@ -10,8 +10,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.funnycode.ministore.Util.Constant.API_VERSION;
+
 @RestController
 @RequiredArgsConstructor
+@RequestMapping(API_VERSION)
+
 public class AccountController {
     private final AccountService accountService;
 
