@@ -5,6 +5,7 @@ import com.funnycode.ministore.AccountAPI.entity.Account;
 import com.funnycode.ministore.AccountAPI.repository.IAccountRepository;
 import com.funnycode.ministore.AccountAPI.service.AccountService;
 import com.funnycode.ministore.AccountAPI.util.mapper.AccountMapper;
+import com.funnycode.ministore.Exception.MiniStoreException;
 import com.funnycode.ministore.Exception.NotFoundException;
 import com.funnycode.ministore.Model.CustomError;
 import com.funnycode.ministore.Util.JwtTokenUtil;
@@ -59,18 +60,20 @@ public class AccountServiceImpl implements AccountService {
     public ResponseAccountDTO getAccountByUsername(String username) {
         Optional<Account> accountOptional = iAccountRepository.findByUsername(username);
         if (accountOptional.isEmpty()) {
-            throw new NotFoundException(CustomError.builder().message("Account not found!").code("404").build());
+            throw MiniStoreException.notFoundException("Account not found");
         } else {
             return AccountMapper.toResponseAccountDTO(accountOptional.get());
 
         }
     }
 
+    // cần phải làm lại hàm update Account
     @Override
     public ResponseAccountDTO updateAccount(UpdateAccountDTO updateAccountDTO, String username) {
         // map tu update sang account/entity
         Account account = AccountMapper.toAccount(updateAccountDTO);
         // phai set id/username cho no vi ham updateDTO chi thay doi password
+        account.setId(account.getId());
         account.setUsername(username);
         account = iAccountRepository.save(account);
         // map tu entity ve dto de gui ve (response)
@@ -82,11 +85,7 @@ public class AccountServiceImpl implements AccountService {
         // lay thang entity tu thang` dto
         Optional<Account> accountOptional = iAccountRepository.findByUsername(username);
         Account account = accountOptional
-                .orElseThrow(() -> new NotFoundException(
-                        CustomError
-                                .builder()
-                                .message("Account not found!")
-                                .code("404").build()));
+                .orElseThrow(() -> MiniStoreException.notFoundException("Account not found"));
         // delete
         iAccountRepository.delete(account);
         // tra ve thang` dc xoa
@@ -97,13 +96,13 @@ public class AccountServiceImpl implements AccountService {
     public ResponseLoginDTO login(RequestLoginDTO requestLoginDTO) {
         // lay account theo username
         Account account = iAccountRepository.findByUsername(requestLoginDTO.getUsername())
-                .orElseThrow(()->new RuntimeException("Account not found"));
+                .orElseThrow(()-> MiniStoreException.notFoundException("Account not found"));
 
         // kiem tra password
         boolean isAuthentication = passwordEncoder
                 .matches(requestLoginDTO.getPassword(), account.getPassword());
         if (!isAuthentication){
-            throw new RuntimeException("Username or password is incorrect");
+            throw MiniStoreException.badRequest("Username or password is incorrect");
         }
         // ok thi gen ra token
         final int ONE_DAY = 24 * 60 * 60;

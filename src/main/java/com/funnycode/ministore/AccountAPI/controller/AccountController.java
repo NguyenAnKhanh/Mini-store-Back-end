@@ -10,8 +10,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.funnycode.ministore.Util.Constant.API_VERSION;
+
 @RestController
 @RequiredArgsConstructor
+@RequestMapping(API_VERSION)
+
 public class AccountController {
     private final AccountService accountService;
 
@@ -28,7 +32,7 @@ public class AccountController {
         return accountService.getAllAccounts();
     }
 
-    // Get account based on id
+    // Get account based on username
     @GetMapping("/accounts/{username}")
     public ResponseAccountDTO getAccountByUsername(@PathVariable(name = "username") String username){
         return accountService.getAccountByUsername(username);
