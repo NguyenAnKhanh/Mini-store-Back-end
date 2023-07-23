@@ -32,7 +32,7 @@ public class AccountController {
         return accountService.getAllAccounts();
     }
 
-    // Get account based on id
+    // Get account based on username
     @GetMapping("/accounts/{username}")
     public ResponseAccountDTO getAccountByUsername(@PathVariable(name = "username") String username){
         return accountService.getAccountByUsername(username);

@@ -22,7 +22,7 @@ public class Account {
     int id;
     @Column(unique = true, nullable = false)
     String username;
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     String password;
 
     @OneToOne()

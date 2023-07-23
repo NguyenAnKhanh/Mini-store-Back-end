@@ -1,5 +1,6 @@
 package com.funnycode.ministore.Security;
 
+import com.funnycode.ministore.Util.Constant;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -13,6 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import static com.funnycode.ministore.Util.Constant.*;
 
 @Configuration
 @EnableWebSecurity
@@ -29,8 +32,8 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.csrf().disable().authorizeRequests()
-                .antMatchers("/login").permitAll()
-                .antMatchers(HttpMethod.POST, "/accounts").permitAll()
+                .antMatchers(String.format("%s/login", API_VERSION)).permitAll()
+                .antMatchers(HttpMethod.POST, String.format("%s/accounts", API_VERSION)).permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
