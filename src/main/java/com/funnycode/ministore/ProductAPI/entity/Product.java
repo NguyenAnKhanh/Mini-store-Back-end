@@ -18,20 +18,17 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
-    @Column(name = "name")
-    String productName;
+    String name;
 
     @Column(name = "stock")
-    int productQuantity;
+    int quantity;
 
-    @Column(name = "price")
-    double productPrice;
+    double price;
 
-    @Column(name = "description", columnDefinition = "TEXT")
-    String productDescription;
+    @Column(columnDefinition = "TEXT")
+    String description;
 
-    @Column(name = "image")
-    String productImg;
+    String image;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")
